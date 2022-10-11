@@ -12,35 +12,30 @@ body {
 
 .App {
   .upload {
-    margin-left: 16rem;
+    margin-left: 14rem;
     margin-top: 2rem;
     overflow-x: auto;
     .upload-content-items {
       display: grid;
       grid-template-columns: repeat(4, 8em);
-      grid-auto-rows: 120px;
+      grid-auto-rows: 100px;
       grid-auto-columns: 150px;
       .item {
-        width: 6rem;
-        height: 6rem;
+        width: 5rem;
+        height: 5rem;
         border-radius: 1.4rem;
         background-color: rgb(198, 198, 198, 0.4);
         text-align: center;
         padding-top: 1.5rem;
         &:hover {
-          box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -10px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+          box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
           transition: 0.2s ease-in-out;
         }
         #item-icon {
-          width: 3rem;
-          height: 3rem;
+          width: 2.3rem;
+          height: 2.3rem;
           color: rgb(198, 198, 198, 0.7);
           margin: auto;
-          .item:hover {
-            box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -10px,
-              rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-            transition: 0.2s ease-in-out;
-          }
         }
       }
     }

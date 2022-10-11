@@ -7,6 +7,53 @@ import { Button, Box } from '@mui/material';
 import UploadItems from './components/UploadItems';
 
 function App() {
+  const [image, setImage] = useState([
+    {
+      id: 0,
+      order: 0,
+      url: null,
+    },
+    {
+      id: 1,
+      order: 1,
+      url: null,
+    },
+    {
+      id: 2,
+      order: 2,
+      url: null,
+    },
+    {
+      id: 3,
+      order: 3,
+      url: null,
+    },
+    {
+      id: 4,
+      order: 4,
+      url: null,
+    },
+    {
+      id: 5,
+      order: 5,
+      url: null,
+    },
+    {
+      id: 6,
+      order: 6,
+      url: null,
+    },
+    {
+      id: 7,
+      order: 7,
+      url: null,
+    },
+    {
+      id: 8,
+      order: 8,
+      url: null,
+    },
+  ]);
   // const [image, setImage] = useState([
   //   {
   //     id: 0,
@@ -20,89 +67,43 @@ function App() {
   //   },
   //   {
   //     id: 2,
-  //     order: 6,
-  //     url: null,
-  //   },
-  //   {
-  //     id: 3,
   //     order: 5,
   //     url: null,
   //   },
   //   {
-  //     id: 4,
-  //     order: 1,
-  //     url: null,
-  //   },
-  //   {
-  //     id: 5,
-  //     order: 8,
-  //     url: null,
-  //   },
-  //   {
-  //     id: 6,
+  //     id: 3,
   //     order: 7,
   //     url: null,
   //   },
   //   {
-  //     id: 7,
+  //     id: 4,
+  //     order: 8,
+  //     url: null,
+  //   },
+  //   {
+  //     id: 5,
   //     order: 4,
   //     url: null,
   //   },
   //   {
-  //     id: 8,
+  //     id: 6,
   //     order: 2,
   //     url: null,
   //   },
+  //   {
+  //     id: 7,
+  //     order: 1,
+  //     url: null,
+  //   },
+  //   {
+  //     id: 8,
+  //     order: 6,
+  //     url: null,
+  //   },
   // ]);
-  const [image, setImage] = useState([
-    {
-      id: 0,
-      order: 0,
-      url: null,
-    },
-    {
-      id: 1,
-      order: 3,
-      url: null,
-    },
-    {
-      id: 2,
-      order: 5,
-      url: null,
-    },
-    {
-      id: 3,
-      order: 7,
-      url: null,
-    },
-    {
-      id: 4,
-      order: 8,
-      url: null,
-    },
-    {
-      id: 5,
-      order: 4,
-      url: null,
-    },
-    {
-      id: 6,
-      order: 2,
-      url: null,
-    },
-    {
-      id: 7,
-      order: 1,
-      url: null,
-    },
-    {
-      id: 8,
-      order: 6,
-      url: null,
-    },
-  ]);
   const [isHovering, setIsHovering] = React.useState(false);
   const imageHandleChange = (e, el) => {
+    e.preventDefault();
     if (e.target.file) {
       return;
     }
@@ -135,14 +136,18 @@ function App() {
     );
   };
 
-  const todoGeneral = (id, el) => {
-    // setImage(
-    //   image.map((item) => {
-    //     return item.id === el.id
-    //       ? item?.url[0] = el?.url
-    //       : item;
-    //   }),
-    // );
+  const todoGeneral = (id, el, e) => {
+    e.preventDefault();
+    setImage(
+      image.map((item) => {
+        if (item.id === el.id) {
+          const f = {...item, url: image[0].url};
+          const g = image[0].url = el.url;
+          return f
+        }
+        else return item;
+      }),
+    );
   };
 
   // Button styles
@@ -167,7 +172,7 @@ function App() {
 
   return (
     <div className="App">
-      <Box component='div' className="upload">
+      <Box component="div" className="upload">
         <UploadItems
           todoGeneral={todoGeneral}
           deleteImageHandler={deleteImageHandler}
@@ -182,10 +187,8 @@ function App() {
 
 export default App;
 
-
-
-
-{/* <Reorder.Item
+{
+  /* <Reorder.Item
             key={picture}
             value={picture}
             as="label"
@@ -244,4 +247,5 @@ export default App;
             accept="images/*"
             onChange={(e) => uploadImage(e)}
             multiple
-          /> */}
+          /> */
+}
