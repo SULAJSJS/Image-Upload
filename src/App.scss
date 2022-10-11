@@ -17,9 +17,9 @@ body {
     overflow-x: auto;
     .upload-content-items {
       display: grid;
-      grid-template-columns: repeat(4, 8em);
+      grid-template-columns: repeat(4, 7em);
       grid-auto-rows: 100px;
-      grid-auto-columns: 150px;
+      grid-auto-columns: 100px;
       .item {
         width: 5rem;
         height: 5rem;
@@ -70,13 +70,9 @@ body {
   .App {
     .upload {
       .upload-content-items {
-        gap: -0.4rem;
+        gap: -0.7rem;
         .item {
 
-          #item-icon {
-            width: 3rem;
-            height: 3rem;
-          }
         }
       }
     }
