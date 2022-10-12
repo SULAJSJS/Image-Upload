@@ -29,8 +29,9 @@ const UploadItems = ({ todoGeneral, imageHandleChange, deleteImageHandler, image
 
   // =========== sort
   const sorted = (a, b) => {
-    return a.url !== null && b.url === null ? -1 : 1;
-  };
+    return a.url === null ? 1 : 0;
+  }
+
   // =========== Finished sort
 
   // =========== DND
@@ -57,26 +58,25 @@ const UploadItems = ({ todoGeneral, imageHandleChange, deleteImageHandler, image
       }),
     );
   };
+
   const sortImages = (a, b) => {
-    return a.order >= b.order ? 1 : -1;
+    return a.order > b.order ? 1 : -1;
   };
+
 
   // =========== Finished DND
 
   return (
     <div className="upload-content-items">
-      {image
-        .sort(sortImages)
-        .sort(sorted)
-        .map((el, id) => (
-          <>
-            <input
-              id={el.id}
-              style={{ display: 'none' }}
-              type="file"
-              accept="images/*"
-              onChange={(e) => imageHandleChange(e, el)}
-            />
+      {image.sort(sortImages).sort(sorted).map((el, id) => (
+        <>
+          <input
+            id={el.id}
+            style={{ display: 'none' }}
+            type="file"
+            accept="images/*"
+            onChange={(e) => imageHandleChange(e, el)}
+          />
             <label
               key={el.id}
               htmlFor={el.id}
@@ -102,7 +102,7 @@ const UploadItems = ({ todoGeneral, imageHandleChange, deleteImageHandler, image
                     sx={
                       id === 0
                         ? {
-                          fontSize: 25,
+                            fontSize: 25,
                             color: '#fff',
                             zIndex: 10,
                             ml: '9.5rem',
@@ -112,7 +112,7 @@ const UploadItems = ({ todoGeneral, imageHandleChange, deleteImageHandler, image
                             transition: '0.4s',
                           }
                         : {
-                          fontSize: 18,
+                            fontSize: 18,
                             color: '#fff',
                             zIndex: 10,
                             ml: '4rem',
@@ -191,8 +191,8 @@ const UploadItems = ({ todoGeneral, imageHandleChange, deleteImageHandler, image
                 />
               )}
             </label>
-          </>
-        ))}
+        </>
+      ))}
     </div>
   );
 };

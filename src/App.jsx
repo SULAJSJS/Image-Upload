@@ -54,6 +54,7 @@ function App() {
       url: null,
     },
   ]);
+
   // const [image, setImage] = useState([
   //   {
   //     id: 0,
@@ -110,42 +111,41 @@ function App() {
     const file = e.target.files[0];
     setImage(
       image.map((item) => {
-        return item.id === el.id
+        return el.order === item.order
           ? {
-              id: item.id,
-              order: item.order,
+              ...item,
               url: URL.createObjectURL(file),
             }
           : item;
       }),
     );
+    console.log(image);
   };
 
   const deleteImageHandler = (e, el) => {
     e.preventDefault();
     setImage(
       image.map((item) => {
-        return item.id === el.id
+        return item.order === el.order
           ? {
-              id: item.id,
-              order: item.order,
+              ...item,
               url: null,
             }
           : item;
       }),
     );
+    console.log(image);
   };
 
   const todoGeneral = (id, el, e) => {
     e.preventDefault();
     setImage(
       image.map((item) => {
-        if (item.id === el.id) {
-          const f = {...item, url: image[0].url};
-          const g = image[0].url = el.url;
-          return f
-        }
-        else return item;
+        if (item.order === el.order) {
+          const f = { ...item, url: image[0].url };
+          const g = (image[0].url = el.url);
+          return f;
+        } else return item;
       }),
     );
   };
@@ -186,66 +186,3 @@ function App() {
 }
 
 export default App;
-
-{
-  /* <Reorder.Item
-            key={picture}
-            value={picture}
-            as="label"
-            htmlFor="input"
-            className="upload-content">
-            {picture ? (
-              <span>
-                <Clear
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setPicture(null);
-                  }}
-                  sx={{
-                    color: '#fff',
-                    zIndex: 10,
-                    ml: '11.5rem',
-                    position: 'absolute',
-                    cursor: 'pointer',
-                    backgroundColor: isHovering ? 'red' : '#000',
-                    cursor: 'pointer',
-                    transition: '0.4s',
-                  }}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  className="delete"
-                />
-                <img
-                  style={{ width: '13rem', height: '13rem', borderRadius: '1.4rem' }}
-                  src={picture}
-                  alt=""
-                  className="uploaded-image-gen"
-                />
-                <ColorButton
-                  className="button"
-                  variant="contained"
-                  sx={{
-                    fontSize: 10,
-                    lineHeight: '10px',
-                    borderRadius: '1.7rem',
-                    width: '8.4rem',
-                    height: '1.6rem',
-                    ml: '0.3rem',
-                    mt: '-4rem',
-                  }}>
-                  <p style={{ whiteSpace: 'nowrap' }}>Главное фото</p>
-                </ColorButton>
-              </span>
-            ) : (
-              <img src="/iconmonstr-picture-thin.svg" alt="" className="photo-icon" />
-            )}
-          </Reorder.Item>
-          <input
-            id="input"
-            style={{ display: 'none' }}
-            type="file"
-            accept="images/*"
-            onChange={(e) => uploadImage(e)}
-            multiple
-          /> */
-}
