@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { Reorder } from 'framer-motion';
 import './App.scss';
-import { Clear } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { Button, Box } from '@mui/material';
 import UploadItems from './components/UploadItems';
@@ -109,17 +107,10 @@ function App() {
       return;
     }
     const file = e.target.files[0];
-    setImage(
-      image.map((item) => {
-        return el.order === item.order
-          ? {
-              ...item,
-              url: URL.createObjectURL(file),
-            }
-          : item;
-      }),
-    );
-    console.log(image);
+    const imageCopy = [...image];
+    imageCopy.find((item) => item.url === null).url = URL.createObjectURL(file);
+    setImage(imageCopy);
+    console.log(image && image);
   };
 
   const deleteImageHandler = (e, el) => {

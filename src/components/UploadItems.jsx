@@ -2,7 +2,9 @@ import React from 'react';
 import { Clear } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { Button } from '@mui/material';
-import { Reorder } from 'framer-motion';
+import { DndProvider, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useDrag } from 'react-dnd';
 
 const UploadItems = ({ todoGeneral, imageHandleChange, deleteImageHandler, image, setImage }) => {
   const [isHovering, setIsHovering] = React.useState(false);
@@ -28,9 +30,6 @@ const UploadItems = ({ todoGeneral, imageHandleChange, deleteImageHandler, image
   // =========== finished hover
 
   // =========== sort
-  const sorted = (a, b) => {
-    return a.url === null ? 1 : 0;
-  }
 
   // =========== Finished sort
 
@@ -44,14 +43,14 @@ const UploadItems = ({ todoGeneral, imageHandleChange, deleteImageHandler, image
   const dragOverHandler = (e) => {
     e.preventDefault();
   };
-  const dropHandler = (e, el, id) => {
+  const dropHandler = (e, el) => {
     e.preventDefault();
     setImage(
       image.map((item) => {
-        if (item.id === el.id) {
+        if (item.order === el.order) {
           return { ...item, order: currentImage.order };
         }
-        if (item.id === currentImage.id) {
+        if (item.order === currentImage.order) {
           return { ...item, order: el.order };
         }
         return item;
@@ -60,26 +59,24 @@ const UploadItems = ({ todoGeneral, imageHandleChange, deleteImageHandler, image
   };
 
   const sortImages = (a, b) => {
-    return a.order > b.order ? 1 : -1;
+    return a.order <= b.order ? 1 : 0;
   };
 
-
   // =========== Finished DND
-
   return (
-    <div className="upload-content-items">
-      {image.sort(sortImages).sort(sorted).map((el, id) => (
-        <>
-          <input
-            id={el.id}
-            style={{ display: 'none' }}
-            type="file"
-            accept="images/*"
-            onChange={(e) => imageHandleChange(e, el)}
-          />
+    <DndProvider backend={HTML5Backend}>
+      <div className="upload-content-items">
+        {image.sort(sortImages).map((el, id) => (
+          <>
+            <input
+              id={el.order}
+              style={{ display: 'none' }}
+              type="file"
+              accept="images/*"
+              onChange={(e) => imageHandleChange(e, el)}
+            />
             <label
-              key={el.id}
-              htmlFor={el.id}
+              htmlFor={el.order}
               className="item"
               style={
                 el.url && id == 0
@@ -133,7 +130,10 @@ const UploadItems = ({ todoGeneral, imageHandleChange, deleteImageHandler, image
                     onDragLeave={(e) => dragEndHandler(e)}
                     onDragEnd={(e) => dragEndHandler(e)}
                     onDragOver={(e) => dragOverHandler(e)}
-                    onDrop={(e) => dropHandler(e, el, id)}>
+                    onDrop={(e) => dropHandler(e, el, id)}
+                    onTouchStart={(e) => dragStartHandler(e, el)}
+                    onTouchEnd={(e) => dragEndHandler(e)}
+                    onTouchMove={(e) => dropHandler(e, el, id)}>
                     <img
                       className="uploaded-image"
                       style={
@@ -141,7 +141,6 @@ const UploadItems = ({ todoGeneral, imageHandleChange, deleteImageHandler, image
                           ? {
                               width: '11rem',
                               height: '11rem',
-                              marginRight: '3rem',
                               borderRadius: '1.4rem',
                               marginTop: '-1.6rem',
                               objectFit: 'cover',
@@ -179,7 +178,9 @@ const UploadItems = ({ todoGeneral, imageHandleChange, deleteImageHandler, image
                             ml: '0.3rem',
                           }
                     }>
-                    <p style={{ whiteSpace: 'nowrap' }}>Сделать главной</p>
+                    <p style={{ whiteSpace: 'nowrap' }} draggable>
+                      Сделать главной
+                    </p>
                   </ColorButton>
                 </span>
               ) : (
@@ -191,9 +192,10 @@ const UploadItems = ({ todoGeneral, imageHandleChange, deleteImageHandler, image
                 />
               )}
             </label>
-        </>
-      ))}
-    </div>
+          </>
+        ))}
+      </div>
+    </DndProvider>
   );
 };
 
